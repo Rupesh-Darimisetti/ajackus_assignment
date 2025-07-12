@@ -1,4 +1,4 @@
-package com.employee_dashboard.controller;
+package com.employee_dashboard.Employee;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.employee_dashboard.model.Employee;
-import com.employee_dashboard.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
@@ -56,7 +54,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable String id, @RequestBody Employee updatedEmployee) {
+    public ResponseEntity<String> updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         try {
             employeeService.updateEmployeeById(id, updatedEmployee);
             return ResponseEntity.ok("Employee updated successfully.");

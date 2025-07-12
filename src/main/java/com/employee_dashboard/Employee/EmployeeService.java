@@ -1,4 +1,4 @@
-package com.employee_dashboard.service;
+package com.employee_dashboard.Employee;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.employee_dashboard.model.Employee;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -61,7 +60,7 @@ public class EmployeeService {
         Files.writeString(jsonPath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
-    public void updateEmployeeById(String id, Employee updatedEmployee) throws IOException {
+    public void updateEmployeeById(Long id, Employee updatedEmployee) throws IOException {
         List<Employee> employees = getAllEmployees();
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getId().equals(id)) {

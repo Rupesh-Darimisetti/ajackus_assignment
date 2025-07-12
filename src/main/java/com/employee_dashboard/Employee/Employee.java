@@ -1,4 +1,4 @@
-package com.employee_dashboard.model;
+package com.employee_dashboard.Employee;
 
 public class Employee {
 

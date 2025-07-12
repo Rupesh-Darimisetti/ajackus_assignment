@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
             list.appendChild(card);
         });
     }
+
+    // use to edit empoyee data
     window.editEmployee = (index) => {
         const emp = window.employeeData[index];
         formContainer.innerHTML = `
@@ -37,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formContainer.style.display = "block";
     };
 
-
+    // used to save employee data
     window.saveEdit = (e, index) => {
         e.preventDefault();
         const form = e.target;
@@ -65,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch(err => console.error("Update failed:", err));
     };
 
+    // used to delete employee data
     window.deleteEmployee = (index) => {
         if (confirm("Delete this employee?")) {
             window.employeeData.splice(index, 1);
@@ -73,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // new employee form UI
     window.showAddForm = () => {
         formContainer.innerHTML = `
             <h3>Add Employee</h3>
@@ -89,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formContainer.style.display = "block";
     };
 
+    // used to add new employee
     window.addEmployee = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -106,10 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
         saveDataToServer();
     };
 
+    // cancel on close of form
     window.cancelForm = () => {
         formContainer.style.display = "none";
         formContainer.innerHTML = "";
     };
+
+    // filrer data based on the option selected
     window.filterData = () => {
         formContainer.innerHTML = `
             <h3>Add Employee</h3>
@@ -124,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
             </form>
         `;
     }
+
+    // adds data to js file
     window.saveDataToServer = () => {
         console.log("Simulating POST to /api/save...");
         fetch('/api/save', {
@@ -177,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
             render(sorted);
         });
     }
+
     // card range
     const cardRange = document.getElementById("cardRange");
     let currentRange = 10; // default
@@ -220,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterRole = document.getElementById("filterRole");
     const filterDepartment = document.getElementById("filterDepartment");
 
-    function applyFilters() {
+    window.applyFilter = () => {
         const nameQuery = filterFirstName.value.toLowerCase();
         const selectedRole = filterRole.value;
         const selectedDept = filterDepartment.value;
@@ -236,8 +247,10 @@ document.addEventListener("DOMContentLoaded", () => {
         render(currentData);
     }
 
-    filterFirstName.addEventListener("input", applyFilters);
-    filterRole.addEventListener("change", applyFilters);
-    filterDepartment.addEventListener("change", applyFilters);
-
+    window.resetData = () => {
+        filterFirstName.value = '';
+        filterDepartment.value = ''
+        filterRole.value = '';
+        render(window.employeeData);
+    }
 });

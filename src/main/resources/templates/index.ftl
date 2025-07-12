@@ -17,8 +17,10 @@
         <input type="text" id="filterFirstName" placeholder="Enter first name">
         <label for="filterRole">Role:</label>
         <input type="text" id="filterRole" placeholder="Enter Role">
-        <label for="filterDepartment">Role:</label>
+        <label for="filterDepartment">Department:</label>
         <input type="text" id="filterDepartment" placeholder="Enter Department">
+        <button onClick="applyFilter()">Apply</button>
+        <button onclick="resetData()">Reset</button>
     </div>
 
     <div class="row">
@@ -35,6 +37,7 @@
             <div class="range">
                 <label for="cardRange">Show</label>
                 <select id="cardRange">
+                    <option value="">All</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="100">100</option>
