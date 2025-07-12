@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Directory</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <div class="heading">
@@ -11,15 +11,28 @@
         <input type="search" id="searchInput" placeholder="Search by name...">
         <button onClick="filterData()">Filter</button>
     </div>
-    <button onclick="showAddForm()">+ Add Employee</button>
-  <div class="sort">
-        <label for="sorting">Sort</label>
-        <select id="sorting">
-            <option value="#">-Select-</option>
-            <option value="firstName">first Name</option>
-            <option value="department">Department</option>
-            <option value="email">Email</option>
-        </select>
+    <div class="row">
+        <div class="display row">
+            <div class="sort">
+                <label for="sorting">Sort</label>
+                <select id="sorting">
+                    <option value="">-Select-</option>
+                    <option value="firstName">first Name</option>
+                    <option value="department">Department</option>
+                    <option value="email">Email</option>
+                </select>
+            </div>
+            <div class="range">
+                <label for="cardRange">Show</label>
+                <select id="cardRange">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="100">100</option>
+                </select>
+                <span>entries</span>
+            </div>
+        </div>
+        <button onclick="showAddForm()">+ Add Employee</button>
     </div>
     <div id="form-container" style="display: none;"></div>
     <div id="employeeList" class="employee-grid"></div>

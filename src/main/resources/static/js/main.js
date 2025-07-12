@@ -159,4 +159,52 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Failed to load employee data:", err);
             window.employeeData = []; // fallback
         });
+
+    // sorting of data
+    const sortingSelect = document.getElementById("sorting");
+
+    if (sortingSelect) {
+        sortingSelect.addEventListener("change", () => {
+            const key = sortingSelect.value;
+            if (!key) return;
+
+            const sorted = [...window.employeeData].sort((a, b) => {
+                const valA = a[key].toLowerCase();
+                const valB = b[key].toLowerCase();
+                return valA.localeCompare(valB);
+            });
+
+            render(sorted);
+        });
+    }
+    // card range
+    const cardRange = document.getElementById("cardRange");
+    let currentRange = 10; // default
+    let currentData = [];
+
+    function render(data) {
+        list.innerHTML = "";
+
+        const limitedData = data.slice(0, currentRange);
+        limitedData.forEach((emp, index) => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+            <h3>${emp.firstName} ${emp.lastName}</h3>
+            <p><strong>Role:</strong> ${emp.role}</p>
+            <p><strong>Department:</strong> ${emp.department}</p>
+            <p><strong>Email:</strong> ${emp.email}</p>
+            <button onclick="editEmployee(${index})">Edit</button>
+            <button onclick="deleteEmployee(${index})">Delete</button>
+        `;
+            list.appendChild(card);
+        });
+    }
+
+    // Handle range change
+    cardRange.addEventListener("change", () => {
+        currentRange = parseInt(cardRange.value, 10);
+        render(window.employeeData);
+    });
+
 });

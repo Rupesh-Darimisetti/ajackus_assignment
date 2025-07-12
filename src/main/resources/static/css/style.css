@@ -1,13 +1,25 @@
 body {
     font-family: sans-serif;
     padding: 20px;
-    background:#000
+    box-sizing: border-box;
 }
 
 input[type="search"] {
-    padding: 8px;
-    width: 300px;
-    margin-bottom: 20px;
+    padding: 4px;
+    width: 150px;
+    margin: 20px 0;
+}
+
+.row{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    margin:5px;
+}
+
+.display{
+    gap:5px
+    margin:5px;
 }
 
 .employee-grid {
@@ -22,8 +34,29 @@ input[type="search"] {
     border-radius: 8px;
     background: #f9f9f9;
 }
+
 .heading{
     display: flex;
     flex-direction:row;
     justify-content: space-between;
+    background:#000;
+    color:#fff;
+}
+
+@media (max-width: 768px) {
+  .employee-card {
+    width: 100%;
+  }
+    .heading{
+    display: flex;
+    flex-direction:columns;
+    justify-content: space-between;
+}
+}
+
+footer{
+    background:#000;
+    max-width:95vw;
+    color:#fff;
+    padding:15px;
 }
