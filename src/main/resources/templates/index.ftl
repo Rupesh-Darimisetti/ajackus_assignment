@@ -12,26 +12,23 @@
         <button onClick="filterData()">Filter</button>
     </div>
     <button onclick="showAddForm()">+ Add Employee</button>
-
+  <div class="sort">
+        <label for="sorting">Sort</label>
+        <select id="sorting">
+            <option value="#">-Select-</option>
+            <option value="firstName">first Name</option>
+            <option value="department">Department</option>
+            <option value="email">Email</option>
+        </select>
+    </div>
     <div id="form-container" style="display: none;"></div>
     <div id="employeeList" class="employee-grid"></div>
-    <div id="employee-list-container">
-        <#list employees as employee>
-            <div class="employee-card" data-employee-id="${employee.id}">
-                <h3>${employee.firstName} ${employee.lastName}</h3>
-                <p>ID: ${employee.id}</p>
-                <p>Email: ${employee.email}</p>
-                <p>Department: ${employee.department}</p>
-                <p>Role: ${employee.role}</p>
-                <button class="edit-btn" data-id="${employee.id}">Edit</button>
-                <button class="delete-btn" data-id="${employee.id}">Delete</button>
-            </div>
-        </#list>
-    </div>
+  
+   
     <footer>
     &copy 2025 Employee Directory App. All rights reserved.
     </footer>
-    <script src="/js/data.js"></script>
-    <script src="/js/main.js"></script>
+    <script src="static/js/data.js"></script>
+    <script src="/static/js/main.js"></script>
 </body>
 </html>

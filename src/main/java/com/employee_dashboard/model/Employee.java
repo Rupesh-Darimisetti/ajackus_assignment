@@ -1,17 +1,18 @@
 package com.employee_dashboard.model;
 
 public class Employee {
-    
-    private int id;
+
+    private Long id;
     private String firstName;
-    private  String lastName;
+    private String lastName;
     private String email;
     private String department;
     private String role;
 
-    public Employee() {}
+    public Employee() {
+    }
 
-    public Employee(int id, String firstName, String lastName, String email, String department, String role) {
+    public Employee(Long id, String firstName, String lastName, String email, String department, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,12 +21,11 @@ public class Employee {
         this.role = role;
     }
 
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
