@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    window.editEmployee = (index) => {
+    const editEmployee = (index) => {
         const emp = window.employeeData[index];
         formContainer.innerHTML = `
             <h3>Edit Employee</h3>
@@ -100,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(window.employeeData)
         })
-        .then(res => res.text())
-        .then(msg => console.log("Server says:", msg))
-        .catch(err => console.error("Failed to save:", err));
+            .then(res => res.text())
+            .then(msg => console.log("Server says:", msg))
+            .catch(err => console.error("Failed to save:", err));
     };
 
     if (searchInput) {
