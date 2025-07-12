@@ -30,5 +30,8 @@
     </footer>
     <script src="static/js/data.js"></script>
     <script src="/static/js/main.js"></script>
+    <script>
+         window.employeeData = employees;
+    </script>
 </body>
 </html>

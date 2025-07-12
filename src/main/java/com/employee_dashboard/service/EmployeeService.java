@@ -4,7 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,26 +17,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class EmployeeService {
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final Path jsPath = Path.of("src/main/resources/static/js/data.js");
+    private final Path jsonPath = Path.of("src/main/resources/static/js/data.js");
 
     public List<Employee> getAllEmployees() throws IOException {
-        if (!Files.exists(jsPath)) {
-            return new ArrayList<>();
-        }
+        try {
+            String raw = Files.readString(jsonPath);
 
-        String content = Files.readString(jsPath);
-        System.out.println(content);
-        String jsonPart = content.replaceFirst("^const\\s+employeeData\\s*=\\s*", "").replaceAll(";\\s*$", "");
-        System.out.println(jsonPart.toString());
-        return objectMapper.readValue(jsonPart, new TypeReference<>() {
-        });
+            // Strip "const employees =" and ending semicolon
+            String json = raw
+                    .replaceFirst("^const\\s+employees\\s*=\\s*", "")
+                    .replaceAll(";$", "")
+                    .trim();
+
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+            return List.of(); // return empty list on error
+        }
     }
 
     public void saveEmployees(List<Employee> employees) throws IOException {
         String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(employees);
         String jsExport = "const employeeData = " + json + ";";
 
-        try (FileWriter writer = new FileWriter(jsPath.toFile(), false)) {
+        try (FileWriter writer = new FileWriter(jsonPath.toFile(), false)) {
             writer.write(jsExport);
         }
     }
@@ -46,4 +52,24 @@ public class EmployeeService {
         System.out.println(current);
         saveEmployees(current);
     }
+
+    public void saveAllEmployees(List<Employee> employees) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(employees);
+        String content = "const employees = " + json + ";";
+        Path jsonPath = Paths.get("src/main/resources/static/js/data.js");
+        Files.writeString(jsonPath, content, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+    }
+
+    public void updateEmployeeById(String id, Employee updatedEmployee) throws IOException {
+        List<Employee> employees = getAllEmployees();
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getId().equals(id)) {
+                employees.set(i, updatedEmployee);
+                break;
+            }
+        }
+        saveAllEmployees(employees);
+    }
+
 }

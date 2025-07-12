@@ -3,16 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const list = document.getElementById("employeeList");
     const formContainer = document.getElementById("form-container");
     const searchInput = document.getElementById("searchInput");
-    fetch('/api/employees')
-        .then(res => res.json())
-        .then(data => {
-            window.employeeData = data;
-            render(window.employeeData);
-        })
-        .catch(err => {
-            console.error("Failed to load employee data:", err);
-            window.employeeData = []; // fallback
-        });
+
     function render(data) {
         list.innerHTML = "";
         data.forEach((emp, index) => {
@@ -23,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Role:</strong> ${emp.role}</p>
                 <p><strong>Department:</strong> ${emp.department}</p>
                 <p><strong>Email:</strong> ${emp.email}</p>
-                <button onclicf="editEmployee(${index})">Edit</button>
+                <button onclick="editEmployee(${index})">Edit</button>
                 <button onclick="deleteEmployee(${index})">Delete</button>
             `;
             list.appendChild(card);
@@ -46,17 +37,32 @@ document.addEventListener("DOMContentLoaded", () => {
         formContainer.style.display = "block";
     };
 
+
     window.saveEdit = (e, index) => {
         e.preventDefault();
         const form = e.target;
-        const emp = window.employeeData[index];
-        emp.name = form.name.value;
-        emp.role = form.role.value;
-        emp.department = form.department.value;
-        emp.email = form.email.value;
-        render(window.employeeData);
-        cancelForm();
-        saveDataToServer();
+        const emp = {
+            id: window.employeeData[index].id,
+            firstName: form.firstName.value,
+            lastName: form.lastName.value,
+            role: form.role.value,
+            department: form.department.value,
+            email: form.email.value,
+        };
+
+        fetch(`/api/update/${emp.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(emp),
+        })
+            .then(res => res.text())
+            .then(msg => {
+                console.log("Update success:", msg);
+                window.employeeData[index] = emp;
+                render(window.employeeData);
+                cancelForm();
+            })
+            .catch(err => console.error("Update failed:", err));
     };
 
     window.deleteEmployee = (index) => {
@@ -134,11 +140,23 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.addEventListener("input", () => {
             const query = searchInput.value.toLowerCase();
             const filtered = window.employeeData.filter(e =>
-                e.name.toLowerCase().includes(query)
+                e.firstName.toLowerCase().includes(query) ||
+                e.role.toLowerCase().includes(query) ||
+                e.department.toLowerCase().includes(query)
             );
             render(filtered);
         });
     }
 
-    render(window.employeeData);
+    // render(window.employeeData);
+    fetch('/api/employees')
+        .then(res => res.json())
+        .then(data => {
+            window.employeeData = data;
+            render(window.employeeData);
+        })
+        .catch(err => {
+            console.error("Failed to load employee data:", err);
+            window.employeeData = []; // fallback
+        });
 });
