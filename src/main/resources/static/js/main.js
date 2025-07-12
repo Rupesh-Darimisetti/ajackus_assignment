@@ -207,4 +207,37 @@ document.addEventListener("DOMContentLoaded", () => {
         render(window.employeeData);
     });
 
+    const toggleFilterBtn = document.getElementById("toggleFilterBtn");
+    const filterContainer = document.getElementById("filterContainer");
+
+    toggleFilterBtn.addEventListener("click", () => {
+        const isVisible = filterContainer.style.display === "block";
+        filterContainer.style.display = isVisible ? "none" : "block";
+        toggleFilterBtn.textContent = isVisible ? "Show Filters" : "Hide Filters";
+    });
+
+    const filterFirstName = document.getElementById("filterFirstName");
+    const filterRole = document.getElementById("filterRole");
+    const filterDepartment = document.getElementById("filterDepartment");
+
+    function applyFilters() {
+        const nameQuery = filterFirstName.value.toLowerCase();
+        const selectedRole = filterRole.value;
+        const selectedDept = filterDepartment.value;
+
+        const filtered = window.employeeData.filter(emp => {
+            const nameMatch = emp.firstName.toLowerCase().includes(nameQuery);
+            const roleMatch = selectedRole ? emp.role === selectedRole : true;
+            const deptMatch = selectedDept ? emp.department === selectedDept : true;
+            return nameMatch && roleMatch && deptMatch;
+        });
+
+        currentData = filtered;
+        render(currentData);
+    }
+
+    filterFirstName.addEventListener("input", applyFilters);
+    filterRole.addEventListener("change", applyFilters);
+    filterDepartment.addEventListener("change", applyFilters);
+
 });

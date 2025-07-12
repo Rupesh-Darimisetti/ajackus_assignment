@@ -9,8 +9,18 @@
     <div class="heading">
         <h1>Employee Directory</h1>
         <input type="search" id="searchInput" placeholder="Search by name...">
-        <button onClick="filterData()">Filter</button>
+        <button id="toggleFilterBtn">Show Filters</button>
     </div>
+
+    <div id="filterContainer" class="filters" style="display: none;">
+        <label for="filterFirstName">First Name:</label>
+        <input type="text" id="filterFirstName" placeholder="Enter first name">
+        <label for="filterRole">Role:</label>
+        <input type="text" id="filterRole" placeholder="Enter Role">
+        <label for="filterDepartment">Role:</label>
+        <input type="text" id="filterDepartment" placeholder="Enter Department">
+    </div>
+
     <div class="row">
         <div class="display row">
             <div class="sort">
